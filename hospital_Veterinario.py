@@ -23,8 +23,7 @@ class Recepcionista(Persona):
 
 class Cliente(Persona):
     def __init__(self, nombre, documento):
-        self.nombre = nombre
-        self.documento = documento
+        super().__init__(nombre, documento)
         self.mascotas = []
 
     def agregar_mascota(self, mascota):
@@ -51,7 +50,7 @@ class Consulta:
         self.veterinario = veterinario
         self.motivo = motivo
         self.tratamientos = []
-        self.diagnostico = []
+        self.diagnostico = ""
 
     def crear_tratamiento(self, descripcion, costo):
         tratamiento = Tratamiento(descripcion, costo)
@@ -77,7 +76,7 @@ class MetodoPago(ABC):
 
 class PagoEfectivo(MetodoPago):
     def procesar_pago(self, monto):
-        print(f"Pago en efectivo realizado: ${monto}")
+        return f"Pago en efectivo realizado: ${monto}"
 
 class PagoTarjeta(MetodoPago):
     def procesar_pago(self, monto):
@@ -96,6 +95,7 @@ class Factura:
     def calcular_total(self):
         total = self.consulta.total()
         self.metodo_pago.procesar_pago(total)
+        return total
         
 # PRUEBA DEL SISTEMA
 if __name__ == "__main__":
@@ -146,3 +146,4 @@ if __name__ == "__main__":
     print("\nPago con tarjeta")
     factura.metodo_pago = PagoTarjeta()
     factura.calcular_total()
+   
